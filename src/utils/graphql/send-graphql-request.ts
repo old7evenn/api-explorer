@@ -20,6 +20,7 @@ export function sendRequestGraphql({
     .then(response => response.json())
     .then(data => {
       console.log(data);
+
       return data;
     })
     .catch(err => {
@@ -33,8 +34,10 @@ export const parseResponseData = (res: HttpResponse | undefined) => {
   if (typeof res.data === 'string') {
     if (res.data.includes('{')) {
       const parsedData = JSON.parse(res.data);
+
       return JSON.stringify(parsedData, null, 2);
     }
+
     return res.data
       .replace(/\\n/g, '\n')
       .replace(/\\"/g, '"')

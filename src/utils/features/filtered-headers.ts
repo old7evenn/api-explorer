@@ -2,6 +2,7 @@ export const filteredHeaders = (headers: ChangeVariableItem[]) => {
   const headersObject = headers.reduce(
     (acc, header) => {
       acc[header.key] = header.value;
+
       return acc;
     },
     {} as Record<string, string>

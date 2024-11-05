@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosHeaders, AxiosResponse } from 'axios';
+
 import { getErrorMessage } from '../ErrorMessage/error-message';
 
 interface HttpClientSearchParams {
@@ -43,6 +44,7 @@ export class HttpClient {
         use: (onSuccess, onFailure) => {
           const interceptor = { onSuccess, onFailure };
           this.interceptorHandlers.request?.push(interceptor);
+
           return interceptor;
         },
         eject: interceptor => {
@@ -56,6 +58,7 @@ export class HttpClient {
         use: (onSuccess, onFailure) => {
           const interceptor = { onSuccess, onFailure };
           this.interceptorHandlers.response?.push(interceptor);
+
           return interceptor;
         },
         eject: interceptor => {
@@ -114,14 +117,20 @@ export class HttpClient {
           throw new Error(initialResponse.statusText, {
             cause: { config: initialConfig, response },
           });
+
         if (!onSuccess) return;
+
         body = onSuccess(response);
-      } catch (error: any) {
-        error.config = initialConfig;
-        error.response = response;
+      } catch (error: unknown) {
+        const responseError = error as ResponseError;
+        responseError.config = initialConfig;
+        responseError.response = response;
+
         if (onFailure) {
-          body = onFailure(error as ResponseError);
-        } else return Promise.reject(error);
+          body = onFailure(responseError);
+        } else {
+          return Promise.reject(responseError);
+        }
       }
     });
 
@@ -136,9 +145,11 @@ export class HttpClient {
     for (const { onSuccess, onFailure } of this.interceptorHandlers.request) {
       try {
         if (!onSuccess) continue;
+
         config = await onSuccess(config);
-      } catch (error: any) {
-        error.config = initialConfig;
+      } catch (error: unknown) {
+        (error as ResponseError).config = initialConfig;
+
         if (onFailure) {
           onFailure(error as ResponseError);
         } else Promise.reject(error);
@@ -180,6 +191,7 @@ export class HttpClient {
     const config = await this.runRequestInterceptors(defaultConfig);
 
     let url = endpoint;
+
     if (options.params) {
       url += this.createSearchParams(options.params);
     }
@@ -198,27 +210,26 @@ export class HttpClient {
       const endTimer = Date.now();
 
       return {
-        data: response.data, // Дані, отримані з відповіді
-        status: response.status, // Статус відповіді
-        statusText: response.statusText, // Текстовий статус відповіді
-        parsedHeaders: response.headers, // Заголовки відповіді
-        success: response.status >= 200 && response.status < 300, // Успіх при статусі 2xx
-        responseTime: endTimer - startTimer, // Час виконання запиту
+        data: response.data,
+        status: response.status,
+        statusText: response.statusText,
+        parsedHeaders: response.headers,
+        success: response.status >= 200 && response.status < 300,
+        responseTime: endTimer - startTimer,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       const axiosError = error as AxiosError;
 
-      // Обробка помилок axios
       return {
-        data: JSON.stringify(axiosError.response?.data || axiosError.message), // Дані або повідомлення про помилку
-        status: axiosError.response?.status || 500, // Статус помилки, якщо є, або 500
+        data: JSON.stringify(axiosError.response?.data || axiosError.message),
+        status: axiosError.response?.status || 500,
         statusText: getErrorMessage(
           axiosError,
           axiosError.message || 'Failed to fetch'
-        ), // Текстовий статус
-        parsedHeaders: axiosError.response?.headers || {}, // Заголовки відповіді, якщо є
-        success: false, // Запит невдалий
-        responseTime: 0, // Час відповіді 0 через помилку
+        ),
+        parsedHeaders: axiosError.response?.headers || {},
+        success: false,
+        responseTime: 0,
       };
     }
   }
@@ -228,6 +239,7 @@ export class HttpClient {
     response.headers.forEach((value, key) => {
       headers[key] = value;
     });
+
     return headers;
   }
 

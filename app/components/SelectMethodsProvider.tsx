@@ -1,6 +1,7 @@
 'use client';
-import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import { options } from '@/utils/constants';
 
@@ -39,10 +40,12 @@ export const SelectedOptionProvider = ({
 
 export const useSelectedOption = () => {
   const context = useContext(SelectedOptionContext);
+
   if (!context) {
     throw new Error(
       'useSelectedOption must be used within a SelectedOptionProvider'
     );
   }
+
   return context;
 };

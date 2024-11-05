@@ -1,6 +1,5 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -8,10 +7,13 @@ import {
   signInWithPopup,
   UserCredential,
 } from 'firebase/auth';
-import { auth, db } from '@/utils/services/firebase';
-import { SignUpFormProps } from '../SignUpForm/SignUpForm';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+
+import { auth, db } from '@/utils/services/firebase';
+
+import { SignUpFormProps } from '../SignUpForm/SignUpForm';
 
 export interface User {
   displayName: string | null;
@@ -48,6 +50,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           body: JSON.stringify({ user: null }),
         });
         setUser(null);
+
         return;
       }
 
@@ -67,34 +70,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return new Promise((resolve, reject) => {
       if (!auth || !db) {
         reject(new Error('Firebase auth or database not initialized'));
+
         return;
       }
-      
+
       signInWithPopup(auth, new GoogleAuthProvider())
-      .then(async (res: UserCredential) => {
-        const user = res.user;
-        
-        const userQuery = query(
-          collection(db, 'users'),
-          where('uid', '==', user.uid)
-        );
-        const querySnapshot = await getDocs(userQuery);
-        
-        toast('Successfully logged in');
-        if (querySnapshot.empty) {
-          await addDoc(collection(db, 'users'), {
-            uid: user.uid,
-            name: user.displayName,
-            authProvider: 'google',
-            email: user.email,
-            createAt: new Date().toISOString(),
-          });
-        } else {
-          console.log('User already exists in Firestore.');
-        }
-        
-        resolve();
-      })
+        .then(async (res: UserCredential) => {
+          const user = res.user;
+
+          const userQuery = query(
+            collection(db, 'users'),
+            where('uid', '==', user.uid)
+          );
+          const querySnapshot = await getDocs(userQuery);
+
+          toast('Successfully logged in');
+
+          if (querySnapshot.empty) {
+            await addDoc(collection(db, 'users'), {
+              uid: user.uid,
+              name: user.displayName,
+              authProvider: 'google',
+              email: user.email,
+              createAt: new Date().toISOString(),
+            });
+          } else {
+            console.log('User already exists in Firestore.');
+          }
+
+          resolve();
+        })
         .catch(error => {
           console.error('Error logging in:', error);
           reject(error);
@@ -108,6 +113,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return new Promise((resolve, reject) => {
       if (!auth) {
         reject();
+
         return;
       }
 
@@ -129,6 +135,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return new Promise((resolve, reject) => {
       if (!auth) {
         reject();
+
         return;
       }
 
@@ -162,6 +169,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return new Promise((resolve, reject) => {
       if (!auth) {
         reject();
+
         return;
       }
 

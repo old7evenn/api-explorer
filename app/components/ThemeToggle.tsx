@@ -1,9 +1,9 @@
 'use client';
 
-import { useTheme } from '@/utils';
+import { MoonOutlined, SunOutlined } from '@ant-design/icons';
 
 import { Toggle } from '@/components/ui/toggle';
-import { MoonOutlined, SunOutlined } from '@ant-design/icons';
+import { useTheme } from '@/utils';
 
 export const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
@@ -13,6 +13,7 @@ export const ThemeToggle = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
     document.documentElement.className = updatedTheme;
   };
+
   return (
     <Toggle onClick={onToggleClick}>
       {theme === 'light' ? <SunOutlined /> : <MoonOutlined />}

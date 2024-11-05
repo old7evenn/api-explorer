@@ -1,21 +1,19 @@
-import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import { cookies } from 'next/headers';
-import { Toaster } from '@/components/ui/sonner';
-import { COOKIE } from '@/utils/constants';
-import type { Theme } from '@/utils';
 
-import Providers from './providers';
+import type { Metadata } from 'next';
+
+import { Toaster } from '@/components/ui/sonner';
+import type { Theme } from '@/utils';
+import { COOKIE } from '@/utils/constants';
+import StoreProvider from '@/utils/store/store-provider';
 
 import '../assets/styles/globals.css';
 
+import { AuthProvider } from './auth/components/AuthProvider/AuthProvider';
 import { Header } from './components/Header';
-import {
-  AuthProvider,
-  useAuth,
-} from './auth/components/AuthProvider/AuthProvider';
 import { SelectedOptionProvider } from './components/SelectMethodsProvider';
-import StoreProvider from '@/utils/store/store-provider';
+import Providers from './providers';
 
 const inter = Montserrat({ subsets: ['latin'], weight: '400' });
 
@@ -44,9 +42,6 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
   return (
     <html className={defaultTheme} lang="en">
-      <head>
-        <script src="https://accounts.google.com/gsi/client" />
-      </head>
       <body
         className={`min-h-screen flex flex-col bg-background font-sans antialiased ${inter.className} p-4 pb-8`}
       >

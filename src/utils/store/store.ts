@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import GraphqlSlice from './slices/graphql-slices';
 import RestSlice from './slices/rest-slices';
 

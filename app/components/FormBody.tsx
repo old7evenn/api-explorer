@@ -1,13 +1,13 @@
+import Editor from '@monaco-editor/react';
+import { GraphQLSchema } from 'graphql';
 import React from 'react';
 import { Control } from 'react-hook-form';
-import { GraphQLSchema } from 'graphql';
-import Editor from '@monaco-editor/react';
 // import ReactCodeMirror from '@uiw/react-codemirror';
 
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui';
-import { FormProps } from '../page';
-
 import { useTheme } from '@/utils';
+
+import { FormProps } from '../page';
 
 export type FormInputProps = {
   control: Control<FormProps> | undefined;

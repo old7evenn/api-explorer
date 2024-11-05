@@ -1,10 +1,10 @@
 'use client';
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
+import { Button } from '@nextui-org/react';
 import { forwardRef, useState } from 'react';
 
 import type { InputProps } from './input';
 import { Input } from './input';
-import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
-import { Button } from '@nextui-org/react';
 
 const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
   ({ ...props }, ref) => {

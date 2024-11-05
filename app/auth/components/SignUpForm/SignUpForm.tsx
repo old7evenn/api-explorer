@@ -1,3 +1,9 @@
+import { useRouter } from 'next/navigation';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+
 import {
   Button,
   Form,
@@ -9,14 +15,12 @@ import {
   Label,
   PasswordInput,
 } from '@/components/ui';
-import { useForm, FormProvider } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { AuthButtonsContainer } from '../AuthButtonsContainer/AuthButtonsContainer';
-import { useRouter } from 'next/navigation';
-import { signUpSchema } from './constants';
+
 import { useStage } from '../../contexts';
+import { AuthButtonsContainer } from '../AuthButtonsContainer/AuthButtonsContainer';
 import { useAuth } from '../AuthProvider/AuthProvider';
+
+import { signUpSchema } from './constants';
 
 export interface SignUpFormProps {
   email: string;
@@ -43,8 +47,8 @@ export default function SignInForm() {
   const onSubmit = async (data: SignUpFormProps) => {
     setState(state => ({ ...state, loading: true }));
     auth
-    ?.registerWithEmailAndPasswor(data)
-    .then(() => {
+      ?.registerWithEmailAndPasswor(data)
+      .then(() => {
         setState(state => ({ ...state, loading: false }));
       })
       .catch(error => {

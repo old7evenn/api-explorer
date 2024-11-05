@@ -1,26 +1,24 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
 import { useSearchParams } from 'next/navigation';
+
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
+import { Button } from '@/components/ui';
 import { apiReq } from '@/utils/api/instance';
+import { filteredHeaders } from '@/utils/features';
+import { RootState } from '@/utils/models/store-types';
+import { useAppSelector } from '@/utils/store/hooks';
+import { setRestHeader } from '@/utils/store/slices/rest-slices';
 
-import { Response } from './components/Response';
 import { FormBody } from './components/FormBody';
 import { FormInput } from './components/FormInput';
 import { HeaderRequest } from './components/HeaderRequest';
+import { Response } from './components/Response';
 import { SelectMethods } from './components/SelectMethods';
 import { TabList } from './components/TabList';
-
-import { Button, Toaster } from '@/components/ui';
-
-import { setRestHeader } from '@/utils/store/slices/rest-slices';
-import { useAppSelector } from '@/utils/store/hooks';
-import { RootState } from '@/utils/models/store-types';
-import { filteredHeaders } from '@/utils/features';
-import { toast } from 'sonner';
 
 export const formSchema = zod.object({
   url: zod.string().url({ message: 'Invalid URL' }),
@@ -87,8 +85,10 @@ export default function Exploits() {
     if (typeof res.data === 'string') {
       if (res.data.includes('{')) {
         const parsedData = JSON.parse(res.data);
+
         return JSON.stringify(parsedData, null, 2);
       }
+
       return res.data
         .replace(/\\n/g, '\n')
         .replace(/\\"/g, '"')
@@ -145,6 +145,7 @@ export default function Exploits() {
       label: 'Body',
     },
   ];
+
   return (
     <>
       <FormProvider {...formProps}>

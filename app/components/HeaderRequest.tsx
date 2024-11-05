@@ -1,10 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
+import { useAppSelector } from '@/utils/store/hooks';
 import GraphqlSlice from '@/utils/store/slices/graphql-slices';
 import RestSlice from '@/utils/store/slices/rest-slices';
-
-import { useAppSelector } from '@/utils/store/hooks';
 
 import { FormInput } from './FormInput';
 

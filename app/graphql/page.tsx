@@ -1,27 +1,26 @@
 'use client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { GraphQLSchema as TSchema } from 'graphql';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useSearchParams } from 'next/navigation';
-import { GraphQLSchema as TSchema } from 'graphql';
-import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 
-import { TabList } from '../components/TabList';
-import { FormInput } from '../components/FormInput';
-import { FormBody } from '../components/FormBody';
-import { Response } from '../components/Response';
-import { HeaderRequest } from '../components/HeaderRequest';
 import { Button } from '@/components/ui';
-
 import {
   getGraphSchema,
   getGraphSchemaOnServer,
   parseResponseData,
   sendRequestGraphql,
 } from '@/utils/graphql';
-import { setGraphHeader } from '@/utils/store/slices/graphql-slices';
-import { useAppDispatch, useAppSelector } from '@/utils/store/hooks';
 import { RootState } from '@/utils/models';
+import { useAppSelector } from '@/utils/store/hooks';
+import { setGraphHeader } from '@/utils/store/slices/graphql-slices';
+
+import { FormBody } from '../components/FormBody';
+import { FormInput } from '../components/FormInput';
+import { HeaderRequest } from '../components/HeaderRequest';
+import { Response } from '../components/Response';
+import { TabList } from '../components/TabList';
 
 export interface FormProps {
   url: string;

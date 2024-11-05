@@ -1,3 +1,7 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+
 import {
   Button,
   Form,
@@ -10,15 +14,11 @@ import {
   PasswordInput,
 } from '@/components/ui';
 
-import { useForm, FormProvider } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useStage } from '../../contexts';
+import { AuthButtonsContainer } from '../AuthButtonsContainer/AuthButtonsContainer';
+import { useAuth } from '../AuthProvider/AuthProvider';
 
 import { signInSchema } from './constants';
-import { AuthButtonsContainer } from '../AuthButtonsContainer/AuthButtonsContainer';
-import { useStage } from '../../contexts';
-import { useAuth } from '../AuthProvider/AuthProvider';
-import { toast } from 'sonner';
 
 export interface SignInFormProps {
   email: string;
@@ -42,9 +42,9 @@ export default function SignInForm() {
   const onSubmit = async (data: SignInFormProps) => {
     setState(state => ({ ...state, loading: true }));
     auth
-    ?.loginEmailAndPassword(data)
-    .then(() => {
-      setState(state => ({ ...state, loading: false }));
+      ?.loginEmailAndPassword(data)
+      .then(() => {
+        setState(state => ({ ...state, loading: false }));
       })
       .catch(error => {
         console.error('Error logging in:', error);

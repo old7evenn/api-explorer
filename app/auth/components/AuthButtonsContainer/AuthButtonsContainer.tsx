@@ -1,5 +1,7 @@
-import { Button } from '@/components/ui';
 import { GoogleOutlined, LoadingOutlined } from '@ant-design/icons';
+
+import { Button } from '@/components/ui';
+
 import { useAuth } from '../AuthProvider/AuthProvider';
 interface AuthButtonsContainerProps {
   loading: boolean;

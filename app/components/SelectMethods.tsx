@@ -1,10 +1,11 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { useSelectedOption } from './SelectMethodsProvider';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { options } from '@/utils/constants';
+
+import { useSelectedOption } from './SelectMethodsProvider';
 
 interface SelectOption {
   value: string;
@@ -12,7 +13,7 @@ interface SelectOption {
   color: string;
 }
 
-export const SelectMethods = ({}) => {
+export const SelectMethods = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { selectedOption, setSelectedOption } = useSelectedOption();
   const selectRef = useRef<HTMLDivElement>(null);

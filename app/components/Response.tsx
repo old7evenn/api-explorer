@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { LoadingOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
+import React from 'react';
 
 export type ResponseProps = {
   data: string;

@@ -1,5 +1,6 @@
-import { checkLastTuple } from '@/utils/features';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { checkLastTuple } from '@/utils/features';
 
 export type RestSliceType = {
   url: string;

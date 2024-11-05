@@ -1,7 +1,7 @@
+import { VariantProps } from 'class-variance-authority';
 import { HTMLInputTypeAttribute } from 'react';
 import { Control } from 'react-hook-form';
 
-import { FormProps } from '../page';
 import {
   FormControl,
   FormField,
@@ -11,7 +11,8 @@ import {
   inputVariants,
 } from '@/components/ui';
 import { cn } from '@/lib/utils';
-import { VariantProps } from 'class-variance-authority';
+
+import { FormProps } from '../page';
 
 export interface FormInputProps extends VariantProps<typeof inputVariants> {
   control?: Control<FormProps> | undefined;
@@ -49,6 +50,7 @@ export const FormInput: React.FC<FormInputProps> = ({
             className={cn('py-2 mb-0', className)}
             onChange={e => {
               field.onChange(e);
+
               if (onChange) onChange(e);
             }}
             variant={variant}

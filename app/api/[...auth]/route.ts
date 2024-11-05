@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
-import { User } from '../../auth/components/AuthProvider/AuthProvider';
 import { NextResponse } from 'next/server';
+
+import { User } from '../../auth/components/AuthProvider/AuthProvider';
 
 interface RequestBody {
   user: User;
@@ -12,10 +13,12 @@ export async function POST(req: Request) {
 
   if (!user) {
     cookie.set('uid', '', { httpOnly: true, secure: true, path: '/' });
+
     return NextResponse.json({ message: 'Token removed' });
   }
 
   cookie.set('uid', user.uid, { httpOnly: true, secure: true, path: '/' });
+
   return NextResponse.json({ message: 'Token set', token: user.uid });
 }
 

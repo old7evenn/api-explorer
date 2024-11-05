@@ -1,11 +1,14 @@
 'use client';
-import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { ThemeToggle } from './ThemeToggle';
-import { useAuth } from '../auth/components/AuthProvider/AuthProvider';
+
 import { LoadingOutlined, UserOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+
 import { Button } from '@/components/ui';
-import { toast } from 'sonner';
+
+import { useAuth } from '../auth/components/AuthProvider/AuthProvider';
+
+import { ThemeToggle } from './ThemeToggle';
 
 const restOrGraphql = {
   rest: {
@@ -70,6 +73,7 @@ export const Header = () => {
     if (!pathname?.includes(restOrGraphql.graphql.url)) {
       return restOrGraphql.graphql;
     }
+
     return restOrGraphql.rest;
   };
 

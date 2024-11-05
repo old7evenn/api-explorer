@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { COOKIE } from '../constants';
+
 import { HttpClient } from './http-client';
 
 export const api = axios.create({

@@ -1,12 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect } from 'react';
+
+import { auth } from '@/utils/services/firebase';
+
 import { useStage } from '../../contexts';
 import SignInForm from '../SignInForm/SignInForm';
 import SignUpForm from '../SignUpForm/SignUpForm';
-import { auth } from '@/utils/services/firebase';
-import { useRouter } from 'next/navigation';
-import { onAuthStateChanged } from 'firebase/auth';
 
 type User = {
   email: string | null;
