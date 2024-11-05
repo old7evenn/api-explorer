@@ -3,8 +3,6 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { usePostSingInMutation } from '@/utils/api';
-
 import { useStage } from '../../../contexts';
 import { signInSchema } from '../constants';
 
@@ -20,8 +18,6 @@ export const useSignInForm = () => {
   const signInForm = useForm<SignInForm>({
     resolver: zodResolver(signInSchema),
   });
-
-  const postSignInMutation = usePostSingInMutation();
 
   // const onSubmit = signInForm.handleSubmit(async values => {
   // 	const postSignInResponse = await postSignInMutation.mutateAsync(values)

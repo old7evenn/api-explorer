@@ -20,7 +20,7 @@ import { Response } from './components/Response';
 import { SelectMethods } from './components/SelectMethods';
 import { TabList } from './components/TabList';
 
-export const formSchemaRestAPi = zod.object({
+const formSchemaRestAPi = zod.object({
   url: zod.string().url({ message: 'Invalid URL' }),
   body: zod.string().optional(),
 });

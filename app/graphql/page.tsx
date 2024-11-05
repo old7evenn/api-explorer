@@ -27,7 +27,7 @@ export interface FormProps {
   body: string;
 }
 
-export const formSchemaGraphql = zod.object({
+const formSchemaGraphql = zod.object({
   url: zod.string().url({ message: 'Invalid URL' }),
   body: zod.string().optional(),
 });
