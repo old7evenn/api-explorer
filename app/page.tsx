@@ -20,7 +20,7 @@ import { Response } from './components/Response';
 import { SelectMethods } from './components/SelectMethods';
 import { TabList } from './components/TabList';
 
-export const formSchema = zod.object({
+export const formSchemaRestAPi = zod.object({
   url: zod.string().url({ message: 'Invalid URL' }),
   body: zod.string().optional(),
 });
@@ -48,7 +48,7 @@ export default function Exploits() {
   });
 
   const formProps = useForm<FormProps>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchemaRestAPi),
     defaultValues: {
       url: '',
       body: '',
