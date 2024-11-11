@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 
 import { useAppSelector } from '@/utils/store/hooks';
 import GraphqlSlice from '@/utils/store/slices/graphql-slices';
-import RestSlice, { RestSliceType } from '@/utils/store/slices/rest-slices';
+import RestSlice from '@/utils/store/slices/rest-slices';
+import type { RestSlice as RestSliceType} from '@/utils/store/slices/rest-slices';
 
 import { FormInput } from './FormInput';
 
