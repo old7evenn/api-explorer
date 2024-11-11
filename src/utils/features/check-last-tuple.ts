@@ -1,6 +1,4 @@
-export const checkLastTuple = (
-  headers: ChangeVariableItem[]
-): ChangeVariableItem[] => {
+export const checkLastTuple = (headers: ChangeItem[]): ChangeItem[] => {
   const lastHeader = headers[headers.length - 1];
 
   if (lastHeader.key && lastHeader.value) {

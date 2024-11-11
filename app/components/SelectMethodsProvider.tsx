@@ -1,15 +1,7 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { createContext, useContext, useState } from 'react';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-
-import { options } from '@/utils/constants';
-
-interface SelectOption {
-  value: string;
-  label: string;
-  color: string;
-}
+import { options, SelectOption } from '@/utils/constants';
 
 const SelectedOptionContext = createContext<{
   selectedOption: SelectOption | null;
@@ -24,10 +16,6 @@ export const SelectedOptionProvider = ({
   const [selectedOption, setSelectedOption] = useState<SelectOption | null>(
     options[0]
   );
-  const navigation = useRouter();
-  useEffect(() => {
-    // navigation.push('/?method=POST');
-  }, []);
 
   return (
     <SelectedOptionContext.Provider

@@ -60,7 +60,7 @@ export const Header = () => {
 
   const logout = () => {
     setLoadingStates(prev => ({ ...prev, logout: true }));
-    navigation.push('/auth');
+    // navigation.push('/auth');
     auth?.logout();
   };
 
@@ -87,8 +87,12 @@ export const Header = () => {
   return (
     <header className="flex items-center mb-6">
       {auth?.user && <UserOutlined />}
-      {auth?.user && <span className="ml-2">{auth?.user.email}</span>}
-      <div className="flex gap-5 items-center mr-0 ml-auto">
+      {auth?.user && (
+        <span className="ml-2 truncate overflow-hidden">
+          {auth?.user.email}
+        </span>
+      )}
+      <div className="flex gap-2 sm:gap-5 items-center mr-0 ml-auto">
         {!auth?.user && !pathname?.includes('/auth') && (
           <Button variant="outline" onClick={toAuth}>
             {loadingStates.login ? (
@@ -100,7 +104,7 @@ export const Header = () => {
         )}
         {auth?.user && (
           <>
-            <Button variant="outline" onClick={handleClick} className="mr-4">
+            <Button variant="outline" onClick={handleClick}>
               {loadingStates.clientSwitch ? (
                 <LoadingOutlined className="px-3" />
               ) : (

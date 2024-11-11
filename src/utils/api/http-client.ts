@@ -172,8 +172,6 @@ export class HttpClient {
     method: RequestMethod,
     options: RequestOptions = {}
   ) {
-    console.info('REQUEST:', method, endpoint, new Date());
-
     const defaultConfig: _RequestConfig = {
       ...options,
       url: endpoint,
@@ -203,7 +201,6 @@ export class HttpClient {
         url,
         method: config.method,
         data: config.body,
-        params: config.params,
         headers: axiosHeaders,
       });
 

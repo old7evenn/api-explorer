@@ -3,21 +3,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { checkLastTuple } from '@/utils/features';
 
 export type GraphqlSliceType = {
-  url: string;
-  urlDoc: string;
-  query: string;
-  schema: string;
-  isTrySchemaDownload: boolean;
-  headers: ChangeVariableItem[];
-  variables: string;
+  headers: ChangeItem[];
+  variables: ChangeItem[];
 };
 
 const initialState: GraphqlSliceType = {
-  url: '',
-  urlDoc: '',
-  query: '',
-  schema: '',
-  isTrySchemaDownload: false,
   headers: [
     {
       key: 'Content-type',
@@ -28,7 +18,12 @@ const initialState: GraphqlSliceType = {
       value: '',
     },
   ],
-  variables: '',
+  variables: [
+    {
+      key: '',
+      value: '',
+    },
+  ],
 };
 
 const GraphqlSlice = createSlice({
@@ -46,11 +41,11 @@ const GraphqlSlice = createSlice({
       const { index, keyOrValue, newValue } = action.payload;
       state.headers[index][keyOrValue] = newValue;
 
-      const filteredHeaders = state.headers.filter(
+      const filteredItems = state.headers.filter(
         header => header.key || header.value
       );
 
-      state.headers = checkLastTuple(filteredHeaders);
+      state.headers = checkLastTuple(filteredItems);
     },
   },
 });

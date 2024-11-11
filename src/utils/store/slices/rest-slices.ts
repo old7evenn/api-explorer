@@ -2,21 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { checkLastTuple } from '@/utils/features';
 
-export type RestSliceType = {
-  url: string;
-  query: string[][];
-  body: string;
-  method: string;
-  headers: ChangeVariableItem[];
-  variables: string[][];
-  textMode: boolean;
+export type RestSlice = {
+  headers: ChangeItem[];
+  variables: ChangeItem[];
 };
 
-const initialState: RestSliceType = {
-  url: '',
-  query: [['', '']],
-  body: '',
-  method: 'GET',
+const initialState: RestSlice = {
   headers: [
     {
       key: 'Content-type',
@@ -27,8 +18,12 @@ const initialState: RestSliceType = {
       value: '',
     },
   ],
-  variables: [['', '']],
-  textMode: false,
+  variables: [
+    {
+      key: '',
+      value: '',
+    },
+  ],
 };
 
 const RestSlice = createSlice({
@@ -46,15 +41,37 @@ const RestSlice = createSlice({
       const { index, keyOrValue, newValue } = action.payload;
       state.headers[index][keyOrValue] = newValue;
 
-      const filteredHeaders = state.headers.filter(
+      const filteredItems = state.headers.filter(
         header => header.key || header.value
       );
 
-      state.headers = checkLastTuple(filteredHeaders);
+      state.headers = checkLastTuple(filteredItems);
+    },
+    setRestVariables(
+      state,
+      action: PayloadAction<{
+        index: number;
+        keyOrValue: 'key' | 'value';
+        newValue: string;
+      }>
+    ) {
+      const { index, keyOrValue, newValue } = action.payload;
+      state.variables[index][keyOrValue] = newValue;
+
+      const filteredItems = state.variables.filter(
+        variable => variable.key || variable.value
+      );
+
+      state.variables = checkLastTuple(filteredItems);
+    },
+    setHistoryItems(state, action: PayloadAction<RestSlice>) {
+      state.headers = action.payload.headers;
+      state.variables = action.payload.variables;
     },
   },
 });
 
-export const { setRestHeader } = RestSlice.actions;
+export const { setRestHeader, setRestVariables, setHistoryItems } =
+  RestSlice.actions;
 
 export default RestSlice;

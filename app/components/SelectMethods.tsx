@@ -4,18 +4,11 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { options } from '@/utils/constants';
-
-import { useSelectedOption } from './SelectMethodsProvider';
-
-interface SelectOption {
-  value: string;
-  label: string;
-  color: string;
-}
+import { useSelectOption } from 'app/hooks/useSelectOption';
 
 export const SelectMethods = () => {
+  const { selectedOption, handleSelect } = useSelectOption();
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedOption, setSelectedOption } = useSelectedOption();
   const selectRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -37,13 +30,6 @@ export const SelectMethods = () => {
     };
   }, []);
 
-  const handleSelect = (option: SelectOption) => {
-    setSelectedOption(option);
-    setIsOpen(false);
-
-    router.push(`/?method=${option.label}`);
-  };
-
   return (
     <div ref={selectRef} className="relative">
       <div
@@ -54,11 +40,14 @@ export const SelectMethods = () => {
       </div>
       {isOpen && (
         <div className="absolute w-full bg-border rounded-md mt-1 z-10">
-          {options.map(option => (
+          {options.map((option, index) => (
             <div
-              key={option.value}
+              key={index}
               className={`p-2 cursor-pointer ${option.color} hover:opacity-70 transition-colors duration-150 font-medium`}
-              onClick={() => handleSelect(option)}
+              onClick={() => {
+                handleSelect(option.label);
+                setIsOpen(false);
+              }}
             >
               {option.label}
             </div>

@@ -36,7 +36,6 @@ interface SignInFormProps {
 }
 
 interface SelectOption {
-  value: string;
   label: string;
   color: string;
 }
@@ -120,7 +119,7 @@ interface HttpResponse {
   responseTime: number;
 }
 
-interface ChangeVariableItem {
+interface ChangeItem {
   key: string;
   value: string;
 }

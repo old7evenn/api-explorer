@@ -1,4 +1,5 @@
-import { filteredHeaders } from '../features';
+import { apiReq } from '../api/instance';
+import { filteredItems } from '../features';
 import { SendRequestGraphql } from '../models';
 
 export function sendRequestGraphql({
@@ -6,18 +7,17 @@ export function sendRequestGraphql({
   url,
   headers,
 }: SendRequestGraphql): Promise<HttpResponse | undefined> {
-  const filterHeaders = filteredHeaders(headers);
+  const filterHeaders = filteredItems(headers);
 
-  return fetch(url, {
-    method: 'POST',
-    headers: {
-      ...filterHeaders,
-    },
-    body: JSON.stringify({
-      query: value,
-    }),
-  })
-    .then(response => response.json())
+  return apiReq
+    .post(
+      url,
+      { query: value },
+      {
+        headers: filterHeaders,
+      }
+    )
+    .then(response => response)
     .then(data => {
       console.log(data);
 

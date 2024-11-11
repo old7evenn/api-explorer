@@ -1,4 +1,4 @@
-export const filteredHeaders = (headers: ChangeVariableItem[]) => {
+export const filteredItems = (headers: ChangeItem[]) => {
   const headersObject = headers.reduce(
     (acc, header) => {
       acc[header.key] = header.value;

@@ -1,3 +1,3 @@
 export * from './check-last-tuple';
 
-export * from './filtered-headers';
+export * from './filtered-items';

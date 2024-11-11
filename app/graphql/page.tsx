@@ -96,7 +96,11 @@ const GraphQl = () => {
 
   const contentList: Record<string, React.ReactNode> = {
     header: (
-      <HeaderRequest sliceKey="graphql-slice" setHeader={setGraphHeader} />
+      <HeaderRequest
+        sliceKey="graphql-slice"
+        setHeader={setGraphHeader}
+        field="headers"
+      />
     ),
   };
 
@@ -117,6 +121,7 @@ const GraphQl = () => {
               name="url"
               placeholder="https://example.com"
               type="text"
+              className="rounded-r-none"
             />
           </div>
           <Button className="border rounded-l-none" type="submit">
