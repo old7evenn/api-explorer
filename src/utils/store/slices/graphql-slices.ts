@@ -47,9 +47,12 @@ const GraphqlSlice = createSlice({
 
       state.headers = checkLastTuple(filteredItems);
     },
+    setGraphHistoryItems(state, action: PayloadAction<ChangeItem[]>) {
+      state.headers = action.payload;
+    },
   },
 });
 
-export const { setGraphHeader } = GraphqlSlice.actions;
+export const { setGraphHeader, setGraphHistoryItems } = GraphqlSlice.actions;
 
 export default GraphqlSlice;

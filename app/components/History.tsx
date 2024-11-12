@@ -3,14 +3,17 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import { Button } from '@/components/ui';
 import { Method } from '@/utils';
+import { GraphHistory } from 'app/hooks/useGraphHistory';
 
 export type History = {
-  method: Method;
+  method?: Method;
   url: string;
-  variables: ChangeItem[];
+  variables?: ChangeItem[];
   value: string;
   headers: ChangeItem[];
 };
+
+type onHistoryProps = History | GraphHistory;
 
 interface HistoryProps {
   history: History[];
@@ -43,23 +46,32 @@ export const History = ({
               </Button>
             </div>
             <ul className="overflow-y-auto max-h-[40vh]">
-              {history.map((item, index) => (
-                <li
-                  key={index}
-                  onClick={() => {
-                    onHistory(item);
-                    onClose(false);
-                  }}
-                  className="cursor-pointer px-4 py-2 hover:bg-accent rounded-md transition"
-                >
-                  <p>
-                    <span className="font-bold mr-2 text-grayText">
-                      {item.method}
-                    </span>
-                    {item.url}
-                  </p>
-                </li>
-              ))}
+              {!history.length && (
+                <p>
+                  You haven&apos;t made any requests yet. Feel free to explore
+                  the REST and GraphQL pages to get started
+                </p>
+              )}
+              {history &&
+                history.map((item, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      onHistory(item);
+                      onClose(false);
+                    }}
+                    className="cursor-pointer px-4 py-2 hover:bg-accent rounded-md transition"
+                  >
+                    <p>
+                      {'method' in item && (
+                        <span className="font-bold mr-2 text-grayText">
+                          {item.method}
+                        </span>
+                      )}
+                      {item.url}
+                    </p>
+                  </li>
+                ))}
             </ul>
           </div>
         </div>

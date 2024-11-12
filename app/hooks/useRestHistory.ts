@@ -14,25 +14,30 @@ export const useHistory = (formProps: UseFormReturn<FormProps>) => {
   const [history, setHistory] = useState<History[]>([]);
 
   useEffect(() => {
-    const savedHistory = JSON.parse(localStorage.getItem('history') || '[]');
+    const savedHistory = JSON.parse(
+      localStorage.getItem('rest-history') || '[]'
+    );
     setHistory(savedHistory);
   }, []);
 
   const handleHistoryClick = (item: History) => {
     const { url, headers, value, method, variables } = item;
+
     formProps.setValue('body', value);
     formProps.setValue('url', url);
-    handleSelect(item.method);
-    dispatch(setHistoryItems({ headers, variables }));
+    handleSelect(method!);
+    dispatch(setHistoryItems({ headers, variables: variables! }));
 
     return { url, headers, value, method, variables };
   };
 
   const saveHistory = (newItem: History) => {
-    const savedHistory = JSON.parse(localStorage.getItem('history') || '[]');
+    const savedHistory = JSON.parse(
+      localStorage.getItem('rest-history') || '[]'
+    );
 
-    const updatedHistory = [...savedHistory, newItem];
-    localStorage.setItem('history', JSON.stringify(updatedHistory));
+    const updatedHistory = [newItem, ...savedHistory];
+    localStorage.setItem('rest-history', JSON.stringify(updatedHistory));
     setHistory(updatedHistory);
   };
 

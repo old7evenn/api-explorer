@@ -12,7 +12,7 @@ import { Method } from '@/utils';
 import { filteredItems } from '@/utils/features';
 import { RootState } from '@/utils/models/store-types';
 import { processResponseData, sendRequest } from '@/utils/rest/send-request';
-import { useAppDispatch, useAppSelector } from '@/utils/store/hooks';
+import { useAppSelector } from '@/utils/store/hooks';
 import {
   setRestHeader,
   setRestVariables,
@@ -56,7 +56,6 @@ export default function Exploits() {
   const { headers, variables } = useAppSelector(
     (state: RootState) => state['rest-slice']
   );
-  const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
   const [res, setRes] = useState<HttpResponse>({
     data: '',

@@ -1,4 +1,5 @@
 'use client';
+import { HistoryOutlined } from '@ant-design/icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GraphQLSchema as TSchema } from 'graphql';
 import React, { useState } from 'react';
@@ -15,6 +16,8 @@ import {
 import { RootState } from '@/utils/models';
 import { useAppSelector } from '@/utils/store/hooks';
 import { setGraphHeader } from '@/utils/store/slices/graphql-slices';
+import { History } from 'app/components/History';
+import { useGraphHistory } from 'app/hooks/useGraphHistory';
 
 import { FormBody } from '../components/FormBody';
 import { FormInput } from '../components/FormInput';
@@ -33,10 +36,19 @@ const formSchemaGraphql = zod.object({
 });
 
 const GraphQl = () => {
+  const formProps = useForm<FormProps>({
+    resolver: zodResolver(formSchemaGraphql),
+    defaultValues: {
+      url: '',
+      body: '',
+    },
+  });
   const headers = useAppSelector(
     (state: RootState) => state['graphql-slice'].headers
   );
-
+  const { saveHistory, handleHistoryClick, history } =
+    useGraphHistory(formProps);
+  const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState('');
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState('');
@@ -48,14 +60,6 @@ const GraphQl = () => {
     parsedHeaders: {},
     success: false,
     responseTime: 0,
-  });
-
-  const formProps = useForm<FormProps>({
-    resolver: zodResolver(formSchemaGraphql),
-    defaultValues: {
-      url: '',
-      body: '',
-    },
   });
 
   const getGraphQLIntrospection = async (url: string) => {
@@ -80,11 +84,11 @@ const GraphQl = () => {
 
       const res = await sendRequestGraphql({ url, value, headers });
 
-      console.log(res);
-
       if (res) {
         setRes(res);
       }
+
+      saveHistory({ url, value, headers });
 
       setData(parseResponseData(res));
     } catch (error) {
@@ -128,8 +132,15 @@ const GraphQl = () => {
                 className="rounded-r-none"
               />
             </div>
-            <Button className="border rounded-l-none" type="submit">
+            <Button className="border mr-4 rounded-l-none" type="submit">
               SEND
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsOpen(true)}
+            >
+              <HistoryOutlined />
             </Button>
           </div>
           <TabList contentList={contentList} tabList={tabList} />
@@ -150,6 +161,12 @@ const GraphQl = () => {
           <Response data={data} loading={loading} res={res} />
         </div>
       </form>
+      <History
+        history={history}
+        onClose={setIsOpen}
+        onHistory={handleHistoryClick}
+        isOpen={isOpen}
+      />
     </FormProvider>
   );
 };
