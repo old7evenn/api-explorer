@@ -34,7 +34,7 @@ export const HeaderRequest: React.FC<HeaderRequestProps> = ({
   };
 
   return (
-    <div className="h-40 overflow-auto">
+    <div className="sm:h-40 h-30 overflow-auto">
       {fields.map((item, index) => (
         <div key={index} className="grid grid-cols-2 gap-4 my-2 items-center">
           <div>

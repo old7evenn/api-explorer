@@ -47,7 +47,7 @@ export const FormInput: React.FC<FormInputProps> = ({
             placeholder={placeholder}
             autoCapitalize="none"
             value={value !== undefined ? value : field.value}
-            className={cn('py-2 mb-0', className)}
+            className={cn('mb-0', className)}
             onChange={e => {
               field.onChange(e);
 

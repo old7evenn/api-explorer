@@ -3,8 +3,9 @@ import { useRouter } from 'next/navigation';
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import { Button } from '@/components/ui';
 import { options } from '@/utils/constants';
-import { useSelectOption } from 'app/hooks/useSelectOption';
+import { useSelectOption } from 'app/hooks';
 
 export const SelectMethods = () => {
   const { selectedOption, handleSelect } = useSelectOption();
@@ -31,13 +32,14 @@ export const SelectMethods = () => {
   }, []);
 
   return (
-    <div ref={selectRef} className="relative">
-      <div
-        className={`bg-border p-2 px-5 rounded-l-md font-medium text-${selectedOption?.color} cursor-pointer ${selectedOption?.color}`}
+    <div ref={selectRef} className="relative sm:text-sm text-xs">
+      <Button
+        className={`rounded-r-none bg-border hover:bg-border hover:opacity-80 text-${selectedOption?.color} cursor-pointer ${selectedOption?.color}`}
         onClick={() => setIsOpen(!isOpen)}
+        type="button"
       >
         {selectedOption?.label}
-      </div>
+      </Button>
       {isOpen && (
         <div className="absolute w-full bg-border rounded-md mt-1 z-10">
           {options.map((option, index) => (

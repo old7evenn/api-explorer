@@ -94,7 +94,7 @@ export const Header = () => {
       )}
       <div className="flex gap-2 sm:gap-5 items-center mr-0 ml-auto">
         {!auth?.user && !pathname?.includes('/auth') && (
-          <Button variant="outline" onClick={toAuth}>
+          <Button variant="outline" onClick={toAuth} className="p-1">
             {loadingStates.login ? (
               <LoadingOutlined className="px-3" />
             ) : (

@@ -113,23 +113,28 @@ const GraphQl = () => {
 
   return (
     <FormProvider {...formProps}>
-      <form onSubmit={formProps.handleSubmit(onSubmit)}>
-        <div className="flex w-full mb-4">
-          <div className="flex-1">
-            <FormInput
-              control={formProps.control}
-              name="url"
-              placeholder="https://example.com"
-              type="text"
-              className="rounded-r-none"
-            />
+      <form
+        onSubmit={formProps.handleSubmit(onSubmit)}
+        className="min-h-[60vh] flex flex-col justify-between"
+      >
+        <div>
+          <div className="flex w-full mb-4">
+            <div className="flex-1">
+              <FormInput
+                control={formProps.control}
+                name="url"
+                placeholder="https://example.com"
+                type="text"
+                className="rounded-r-none"
+              />
+            </div>
+            <Button className="border rounded-l-none" type="submit">
+              SEND
+            </Button>
           </div>
-          <Button className="border rounded-l-none" type="submit">
-            SEND
-          </Button>
+          <TabList contentList={contentList} tabList={tabList} />
         </div>
-        <TabList contentList={contentList} tabList={tabList} />
-        <div className="grid grid-cols-2 gap-4 items-center">
+        <div className="sm:grid block grid-cols-2 gap-4 items-center">
           <div className="mt-2">
             Body
             <FormBody

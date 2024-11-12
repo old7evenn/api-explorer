@@ -17,6 +17,10 @@ const config: Config = {
       },
     },
     extend: {
+      spacing: {
+        'adaptive-padding': 'px-3 sm:px-5',
+        'adaptive-height': 'h-8 sm:h-10',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
