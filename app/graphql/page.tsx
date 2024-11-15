@@ -7,17 +7,17 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
 import { Button } from '@/components/ui';
+import { processResponseData } from '@/utils/features';
 import {
   getGraphSchema,
   getGraphSchemaOnServer,
-  parseResponseData,
   sendRequestGraphql,
 } from '@/utils/graphql';
 import { RootState } from '@/utils/models';
 import { useAppSelector } from '@/utils/store/hooks';
 import { setGraphHeader } from '@/utils/store/slices/graphql-slices';
 import { History } from 'app/components/History';
-import { useGraphHistory } from 'app/hooks/useGraphHistory';
+import { useGraphHistory } from 'app/hooks';
 
 import { FormBody } from '../components/FormBody';
 import { FormInput } from '../components/FormInput';
@@ -51,7 +51,6 @@ const GraphQl = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState('');
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState('');
   const [schema, setSchema] = useState<TSchema | null>(null);
   const [res, setRes] = useState<HttpResponse>({
     data: '',
@@ -67,30 +66,29 @@ const GraphQl = () => {
       .then(introspectionJSON => {
         const schema = getGraphSchema(introspectionJSON);
         setSchema(schema);
-        console.log(schema);
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
       });
   };
 
   const onSubmit = async (data: FormProps) => {
-    const { url } = data;
+    const { url, body } = data;
 
     setLoading(true);
 
     try {
       await getGraphQLIntrospection(url);
 
-      const res = await sendRequestGraphql({ url, value, headers });
+      const res = await sendRequestGraphql({ url, body, headers });
 
       if (res) {
         setRes(res);
       }
 
-      saveHistory({ url, value, headers });
+      saveHistory({ url, body, headers });
 
-      setData(parseResponseData(res));
+      setData(processResponseData(res));
     } catch (error) {
       console.error(error);
     } finally {
@@ -119,7 +117,7 @@ const GraphQl = () => {
     <FormProvider {...formProps}>
       <form
         onSubmit={formProps.handleSubmit(onSubmit)}
-        className="min-h-[60vh] flex flex-col justify-between"
+        className="h-[80vh] flex flex-col justify-between"
       >
         <div>
           <div className="flex w-full mb-4">
@@ -150,12 +148,12 @@ const GraphQl = () => {
             Body
             <FormBody
               control={formProps.control}
-              setTextareaData={setValue}
               name="body"
               readOnly={false}
               placeholder='{"key": "value"}'
               className="mt-2 rounded"
               height="230px"
+              language="graphql"
             />
           </div>
           <Response data={data} loading={loading} res={res} />

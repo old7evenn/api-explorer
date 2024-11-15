@@ -8,7 +8,7 @@ import { FormProps } from 'app/page';
 
 import { useSelectOption } from './useSelectOption';
 
-export const useHistory = (formProps: UseFormReturn<FormProps>) => {
+export const useRestHistory = (formProps: UseFormReturn<FormProps>) => {
   const dispatch = useDispatch();
   const { handleSelect } = useSelectOption();
   const [history, setHistory] = useState<History[]>([]);
@@ -21,14 +21,14 @@ export const useHistory = (formProps: UseFormReturn<FormProps>) => {
   }, []);
 
   const handleHistoryClick = (item: History) => {
-    const { url, headers, value, method, variables } = item;
+    const { url, headers, body, method, variables } = item;
 
-    formProps.setValue('body', value);
+    formProps.setValue('body', body);
     formProps.setValue('url', url);
     handleSelect(method!);
     dispatch(setHistoryItems({ headers, variables: variables! }));
 
-    return { url, headers, value, method, variables };
+    return { url, headers, body, method, variables };
   };
 
   const saveHistory = (newItem: History) => {

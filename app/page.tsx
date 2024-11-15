@@ -9,9 +9,9 @@ import * as zod from 'zod';
 
 import { Button } from '@/components/ui';
 import { Method } from '@/utils';
-import { filteredItems } from '@/utils/features';
+import { filteredItems, processResponseData } from '@/utils/features';
 import { RootState } from '@/utils/models/store-types';
-import { processResponseData, sendRequest } from '@/utils/rest/send-request';
+import { sendRequest } from '@/utils/rest/send-request';
 import { useAppSelector } from '@/utils/store/hooks';
 import {
   setRestHeader,
@@ -25,7 +25,7 @@ import { History } from './components/History';
 import { Response } from './components/Response';
 import { SelectMethods } from './components/SelectMethods';
 import { TabList } from './components/TabList';
-import { useHistory } from './hooks';
+import { useRestHistory } from './hooks';
 
 const formSchemaRestAPi = zod.object({
   url: zod.string().url({ message: 'Invalid URL' }),
@@ -48,11 +48,11 @@ export default function Exploits() {
     },
   });
   const [data, setData] = useState('');
-  const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { history, saveHistory, handleHistoryClick } = useHistory(formProps);
+  const { history, saveHistory, handleHistoryClick } =
+    useRestHistory(formProps);
   const { headers, variables } = useAppSelector(
     (state: RootState) => state['rest-slice']
   );
@@ -72,14 +72,14 @@ export default function Exploits() {
   const params = filteredItems(variables);
 
   const onSubmit = async (data: FormProps) => {
-    const { url } = data;
+    const { url, body } = data;
 
     setLoading(true);
 
     try {
       const res = await sendRequest({
         url,
-        value,
+        body,
         method,
         headers: filterHeaders,
         params,
@@ -91,7 +91,7 @@ export default function Exploits() {
 
       const formattedData = processResponseData(res);
       setData(formattedData);
-      saveHistory({ url, value, method: method, headers, variables });
+      saveHistory({ url, body, method: method, headers, variables });
     } finally {
       setLoading(false);
     }
@@ -108,11 +108,11 @@ export default function Exploits() {
     body: (
       <FormBody
         control={formProps.control}
-        setTextareaData={setValue}
         name="body"
         readOnly={false}
         placeholder='{"key": "value"}'
         height="160px"
+        language="json"
       />
     ),
     variables: (

@@ -167,7 +167,7 @@ export class HttpClient {
     }
   }
 
-  private async request<T>(
+  async request<T>(
     endpoint: string,
     method: RequestMethod,
     options: RequestOptions = {}

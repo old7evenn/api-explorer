@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import { LoadingOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import React from 'react';
@@ -27,7 +29,7 @@ export const Response: React.FC<ResponseProps> = ({ data, res, loading }) => {
   return (
     <div className="mt-auto">
       <div className="flex gap-4 items-center justify-between my-2">
-        <p>Response</p>
+        <b>Response</b>
         {res.status > 0 && (
           <div className="flex gap-4 items-center mr-20 text-sm">
             <span
@@ -52,22 +54,22 @@ export const Response: React.FC<ResponseProps> = ({ data, res, loading }) => {
             allowClear
             value={data}
             rows={10}
-            readOnly
-            className="relative"
+            readOnly={true}
+            className="relative bg-border border-none focus:border-none text-foreground"
             style={{
               resize: 'none',
             }}
           />
           {!data && (
             <div className="absolute top-5 left-0 z-10 w-full">
-              <img
+              <Image
                 src="/images/await_response.svg"
                 className="mx-auto"
                 alt="await_response"
-                width={250}
-                height={250}
+                width={200}
+                height={200}
               />
-              <p className="text-[#5C5C5C] font-bold text-center text-sm">
+              <p className="text-[#949494] font-bold text-center text-sm">
                 Click Send to get a response
               </p>
             </div>

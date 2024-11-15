@@ -112,6 +112,10 @@
   @apply bg-background border-border text-foreground transition ease-in delay-100;
 }
 
+.ant-card .ant-card-body {
+  padding: 16px;
+}
+
 .ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
   @apply bg-background border-border text-foreground border-slate-500;
 }
@@ -145,4 +149,18 @@
 
 .ant-card .ant-card-head {
   border-bottom: none;
+}
+
+.ant-input-outlined:hover {
+  background: hsl(var(--border));
+}
+
+.ant-input-outlined:focus-within {
+  background: hsl(var(--border));
+}
+
+@media screen and (max-width: 640px) {
+  .ant-card .ant-card-body {
+    padding: 16px 0;
+  }
 }

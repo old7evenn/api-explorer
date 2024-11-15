@@ -7,7 +7,7 @@ import { FormProps } from 'app/graphql/page';
 
 export interface GraphHistory {
   url: string;
-  value: string;
+  body: string;
   headers: ChangeItem[];
 }
 
@@ -23,12 +23,12 @@ export const useGraphHistory = (formProps: UseFormReturn<FormProps>) => {
   }, []);
 
   const handleHistoryClick = (item: GraphHistory) => {
-    const { url, headers, value } = item;
-    formProps.setValue('body', value);
+    const { url, headers, body } = item;
+    formProps.setValue('body', body);
     formProps.setValue('url', url);
     dispatch(setGraphHistoryItems(headers));
 
-    return { url, headers, value };
+    return { url, headers, body };
   };
 
   const saveHistory = (newItem: GraphHistory) => {

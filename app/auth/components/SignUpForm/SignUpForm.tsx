@@ -1,5 +1,3 @@
-import { useRouter } from 'next/navigation';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -33,7 +31,6 @@ export default function SignInForm() {
   const [error, setError] = useState('');
   const auth = useAuth();
   const stage = useStage();
-  const router = useRouter();
 
   const signUpForm = useForm<SignUpFormProps>({
     resolver: zodResolver(signUpSchema),

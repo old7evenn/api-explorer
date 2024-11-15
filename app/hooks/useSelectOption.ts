@@ -28,7 +28,5 @@ export const useSelectOption = () => {
     }
   }, [handleSelect]);
 
-  console.log('selected: ', selectedOption);
-
   return { selectedOption, handleSelect };
 };

@@ -1,53 +1,52 @@
 import { apiReq } from '../api/instance';
 
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+
 export interface SendRequest {
   url: string;
-  value: string;
-  method: string | null;
-  headers: Record<string, string>;
-  params: Record<string, string>;
+  body?: string;
+  method: HttpMethod;
+  headers?: Record<string, string>;
+  params?: Record<string, string>;
 }
 
 export const sendRequest = async ({
   url,
-  value,
+  body,
   method,
-  headers,
-  params,
+  headers = {},
+  params = {},
 }: SendRequest): Promise<HttpResponse | undefined> => {
-  try {
-    if (method === 'POST') {
-      return await apiReq.post(url, value ? JSON.parse(value) : undefined, {
-        headers,
-      });
-    }
+  const config = {
+    headers,
+    params,
+  };
 
-    if (method === 'GET') {
-      return await apiReq.get(url, {
-        headers,
-        params,
-      });
-    }
+  const parsedBody = parseRequestBody(body);
+
+  try {
+    const response = await apiReq.request(url, method, {
+      ...config,
+      ...(!!body && {
+        body: method === 'GET' || method === 'DELETE' ? undefined : parsedBody,
+      }),
+    });
+
+    return response;
   } catch (error) {
-    console.error('Error during request:', error);
+    console.error(`[${method}] Request error for ${url}:`, error);
+    throw error;
   }
 };
 
-export const processResponseData = (res: HttpResponse | undefined) => {
-  if (!res) return '';
+const parseRequestBody = (body?: string) => {
+  if (!body || body.trim() === '') return undefined;
 
-  if (typeof res.data === 'string') {
-    if (res.data.includes('{')) {
-      const parsedData = JSON.parse(res.data);
+  try {
+    return JSON.parse(body);
+  } catch (error) {
+    console.warn('Invalid JSON body:', body);
 
-      return JSON.stringify(parsedData, null, 2);
-    }
-
-    return res.data
-      .replace(/\\n/g, '\n')
-      .replace(/\\"/g, '"')
-      .replace(/"/g, '');
+    return undefined;
   }
-
-  return JSON.stringify(res.data, null, 2);
 };

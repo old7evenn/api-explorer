@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   return NextResponse.json({ message: 'Token set', token: user.uid });
 }
 
-export async function GET(req: Request) {
+export async function GET() {
   const token = cookies().get('uid')?.value;
 
   if (token) {

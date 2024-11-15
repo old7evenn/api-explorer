@@ -48,8 +48,6 @@ export const Header = () => {
       pathname === targetPath ||
       (pathname === '/' && targetPath === '/?method=POST')
     ) {
-      console.log('targetPath', targetPath, '\n', 'pathname', pathname);
-
       setLoadingStates(prev => ({
         ...prev,
         clientSwitch: false,

@@ -94,8 +94,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
               email: user.email,
               createAt: new Date().toISOString(),
             });
-          } else {
-            console.log('User already exists in Firestore.');
           }
 
           resolve();

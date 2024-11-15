@@ -3,17 +3,14 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import { Button } from '@/components/ui';
 import { Method } from '@/utils';
-import { GraphHistory } from 'app/hooks/useGraphHistory';
 
 export type History = {
   method?: Method;
   url: string;
   variables?: ChangeItem[];
-  value: string;
+  body: string;
   headers: ChangeItem[];
 };
-
-type onHistoryProps = History | GraphHistory;
 
 interface HistoryProps {
   history: History[];

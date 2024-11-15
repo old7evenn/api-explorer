@@ -11,18 +11,12 @@ import { useStage } from '../../contexts';
 import SignInForm from '../SignInForm/SignInForm';
 import SignUpForm from '../SignUpForm/SignUpForm';
 
-type User = {
-  email: string | null;
-};
-
 export const FormContainer = () => {
   const { stage } = useStage();
   const navigate = useRouter();
 
   useEffect(() => {
     onAuthStateChanged(auth, currentUser => {
-      console.log(currentUser);
-
       if (currentUser?.getIdToken()) {
         navigate.push('/');
       }

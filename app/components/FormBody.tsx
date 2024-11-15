@@ -11,7 +11,6 @@ import { FormProps } from '../page';
 
 export type FormInputProps = {
   control: Control<FormProps> | undefined;
-  setTextareaData: (value: string) => void;
   name: 'url' | 'body';
   placeholder: string;
   readOnly: boolean;
@@ -19,14 +18,13 @@ export type FormInputProps = {
   isGraphQl?: boolean;
   schema?: GraphQLSchema | null;
   height: string;
+  language: 'json' | 'graphql';
 };
 
 export const FormBody: React.FC<FormInputProps> = ({
   control,
-  setTextareaData,
   name,
-  placeholder,
-  readOnly,
+  language,
   className,
   height,
 }) => {
@@ -46,8 +44,7 @@ export const FormBody: React.FC<FormInputProps> = ({
                 {...field}
                 height={height}
                 value={field.value}
-                defaultLanguage="graphql"
-                onChange={value => setTextareaData(value ?? '')}
+                defaultLanguage={language}
                 defaultValue=""
                 className={className}
                 theme={theme === 'dark' ? 'vs-dark' : 'light'}

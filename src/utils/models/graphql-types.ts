@@ -1,5 +1,5 @@
 export interface SendRequestGraphql {
-  value: string;
+  body: string;
   url: string;
   headers: ChangeItem[];
 }
